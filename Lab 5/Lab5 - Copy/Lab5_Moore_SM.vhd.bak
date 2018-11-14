@@ -1,0 +1,218 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+Entity Moore_SM IS Port
+(
+ 
+ target : IN std_logic_vector(3 downto 0); --our target hex value 
+ compare : IN std_logic_vector (2 downto 0); --our results when we compare the two hex values we have
+ clk_input: IN std_logic; --our clk variable 
+ rst_n	: IN std_logic; --our reset button when pressed, will turn state to S0
+ QQ : OUT std_logic_vector(3 downto 0) --our output hex is QQ (QQ for next state, tried Q+, didn't work) 
+
+ );
+END ENTITY;
+ 
+ 
+ 
+ Architecture MSM of Moore_SM is
+ 
+  
+ TYPE STATE_NAMES IS (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15); -- list all the STATES
+	--16 states from values 0 to 15
+ 
+ SIGNAL current_state, next_state	:  STATE_NAMES;   -- signals of type STATE_NAMES
+ 
+
+
+BEGIN
+
+ --------------------------------------------------------------------------------
+ --State Machine:
+ --------------------------------------------------------------------------------
+
+ 
+-- REGISTER LOGIC PROCESS
+-- add clock and any related inputs for state machine register section into Sensitivity List 
+
+Register_Section: PROCESS (clk_input, rst_n, next_state)  -- this process synchronizes the activity to a clock
+BEGIN
+	IF (rst_n = '0') THEN --resets current state if push button reset is pressed 
+		current_state <= S0;
+	ELSIF(rising_edge(clk_input)) THEN --rising edge of clock input triggers thing to move to next state
+		current_state <= next_State;
+	ELSE
+		current_state <= current_state; --otherwise currentstate stays current state
+	END IF;
+END PROCESS;	
+
+
+
+-- TRANSTION LOGIC PROCESS (to be combinational only)
+-- add all transition inputs for state machine into Transition section Sensitivity List 
+-- make sure that all conditional statement options are complete otherwise VHDL will infer LATCHES.
+
+Transition_Section: PROCESS (compare, current_state) 
+
+BEGIN
+
+     CASE current_state IS 
+			
+         WHEN S0 =>		--whe at first state and compared value is greater then next state will turn to S1
+            IF (compare = "001") THEN 
+               next_state <= S1;
+            ELSE --otherwise our next state will just be our current state 
+               next_state <= current_state;
+            END IF;
+				
+         WHEN S1 => --if greater than the next state will be S2 
+            IF ( compare = "001") THEN 
+               next_state <= S2;
+				ELSIF (compare = "100") THEN --if less than our current value then next state will be below current state
+					next_state <= S0;
+            ELSE --otherwise current state remains current state
+               next_state <= S1;
+            END IF;			
+				
+         WHEN S2 => --same method as S1 above. this goes down all the way to S14
+            IF ( compare = "001") THEN 
+               next_state <= S3;
+				ELSIF (compare = "100") THEN
+              next_state <= S1;
+				ELSE
+				 next_state <= S2;
+            END IF;			
+				
+         WHEN S3 =>
+            IF ( compare = "001") THEN 
+               next_state <= S4;
+				ELSIF (compare = "100") THEN
+              next_state <= S2;
+            ELSE 
+               next_state <= S3;
+            END IF;			
+				
+         WHEN S4 =>
+            IF (compare ="001") THEN 
+               next_state <= S5;
+				ELSIF (compare = "100") THEN
+              next_state <= S3;
+            ELSE 
+               next_state <= S4;
+            END IF;			
+				
+         WHEN S5 =>
+            IF ( compare ="001") THEN 
+               next_state <= S6;
+				ELSIF (compare = "100") THEN
+              next_state <= S4;
+            ELSE 
+               next_state <= S5;
+            END IF;			
+				
+         WHEN S6 =>
+           IF ( compare ="001") THEN 
+               next_state <= S7;
+				ELSIF (compare = "100") THEN
+              next_state <= S5;
+            ELSE 
+               next_state <= S6;
+            END IF;			
+				
+         WHEN S7 =>
+            IF ( compare ="001") THEN 
+               next_state <= S8;
+				ELSIF (compare = "100") THEN
+              next_state <= S6;
+            ELSE 
+               next_state <= S7;
+            END IF;			
+			WHEN S8 =>
+            IF ( compare ="001") THEN 
+               next_state <= S9;
+				ELSIF (compare = "100") THEN
+              next_state <= S7;
+            ELSE 
+               next_state <= S8;
+            END IF;			
+	      WHEN S9 =>
+            IF ( compare ="001") THEN 
+               next_state <= S10;
+				ELSIF (compare = "100") THEN
+              next_state <= S8;
+            ELSE 
+               next_state <= S9;
+            END IF;			
+		   WHEN S10 =>
+            IF ( compare ="001") THEN 
+               next_state <= S11;
+				ELSIF (compare = "100") THEN
+              next_state <= S9;
+            ELSE 
+               next_state <= S10;
+            END IF;			
+		   WHEN S11 =>
+            IF ( compare ="001") THEN 
+               next_state <= S12;
+				ELSIF (compare = "100") THEN
+              next_state <= S10;
+            ELSE 
+               next_state <= S11;
+            END IF;			
+		   WHEN S12 =>
+            IF ( compare ="001") THEN 
+               next_state <= S13;
+				ELSIF (compare = "100") THEN
+              next_state <= S11;
+            ELSE 
+               next_state <= S12;
+            END IF;			
+		   WHEN S13 =>
+            IF ( compare ="001") THEN 
+               next_state <= S14;
+				ELSIF (compare = "100") THEN
+              next_state <= S12;
+            ELSE 
+               next_state <= S13;
+            END IF;			
+			WHEN S14 =>
+           IF ( compare ="001") THEN 
+               next_state <= S15;
+				ELSIF (compare = "100") THEN
+              next_state <= S13;
+            ELSE 
+               next_state <= S14;
+            END IF;			
+			WHEN S15 => --> if lower than next state will go to lower state of S14
+				IF (compare = "100") THEN
+              next_state <= S14;
+				 
+            ELSE  --otherwise our nextstate will just remain the same
+               next_state <= S15;
+            END IF;			
+			
+         WHEN others => --if something else happens, next state just becomes S0
+               next_state <= S0;
+					
+		END CASE;
+ END PROCESS;
+ 
+QQ <= "0000" when current_state = s0 else --QQ is our output hex. Here we decode our results from the case above into results for QQ
+		"0001" when current_state = s1 else --As we see here, QQ values change depending on what state our current state ends on
+		"0010" when current_state = s2 else --QQ goes through each binary value corresponding to our state value
+		"0011" when current_state = s3 else 
+		"0100" when current_state = s4 else 
+		"0101" when current_state = s5 else 
+		"0110" when current_state = s6 else 
+		"0111" when current_state = s7 else 
+		"1000" when current_state = s8 else 
+		"1001" when current_state = s9 else 
+		"1010" when current_state = s10 else 
+		"1011" when current_state = s11 else 
+		"1100" when current_state = s12 else 
+		"1101" when current_state = s13 else 
+		"1110" when current_state = s14 else 
+		"1111";
+
+END ARCHITECTURE MSM;

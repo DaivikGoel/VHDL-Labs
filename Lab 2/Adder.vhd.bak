@@ -1,0 +1,21 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity Adder is port (
+	
+	hex_A : in std_logic_vector(3 downto 0);
+	hex_B : in std_logic_vector(3 downto 0);
+	sum : out std_logic
+);
+end Adder;
+
+architecture Behavioural of Adder is 
+
+begin 
+with 
+A <= "0000";
+sum (7 downto 0)<= std_logic_vector(unsigned(add_inpA & A) + unsigned(add_inpB & A)); --this how we add stuff & puts 0000 at the start of the bits we give the adder
+
+
+end architecture Behavioural; 

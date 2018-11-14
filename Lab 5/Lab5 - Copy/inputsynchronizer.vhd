@@ -1,0 +1,49 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+Entity inputsynchronizer IS port (
+          clk_in      		: in  std_logic;
+			 rst_n				: in  std_logic;
+		    pb               : in  std_logic;
+			 DOUT             : OUT std_logic 
+   );
+end entity;
+
+ARCHITECTURE change OF inputsynchronizer IS
+
+	SIGNAL Dintermediate					   : std_logic;
+	SIGNAL Dfinal				            : std_logic;
+
+BEGIN
+
+
+IntermediateRegister: PROCESS (rst_n, clk_in)	
+	BEGIN
+	 
+		IF (rst_n = '0') THEN --resets current state if push button reset is pressed 
+				Dintermediate <= '0';
+		ELSIF(rising_edge(clk_in)) THEN	--if clock rises edge then Dintermediate will take value of PB. Otherwise it stays the same
+			Dintermediate <= pb;
+		ELSE
+			Dintermediate <= Dintermediate;
+		END IF; 
+	END PROCESS;
+
+	
+FinalRegister: PROCESS(rst_n, clk_in)
+	BEGIN
+	 
+		IF (rst_n = '0') THEN --resets current state if push button reset is pressed 
+			Dfinal <= '0';
+		ELSIF (rising_edge(clk_in)) THEN	--once clock rises, Dfinal takes value of Dintermediate, otherwise state stays the same 
+			Dfinal <= Dintermediate;
+		ELSE
+			Dfinal <= Dfinal;
+		END IF; 
+END PROCESS;
+  
+ DOUT <= Dfinal;
+
+END ARCHITECTURE change; 
+	

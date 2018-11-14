@@ -1,0 +1,92 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dP:/ECE124/Lab 2/simulation/modelsim
+Elogicalstep_lab2_top
+Z1 w1495581833
+Z2 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+R0
+Z5 8P:/ECE124/Lab 2/LogicalStep_Lab2_top.vhd
+Z6 FP:/ECE124/Lab 2/LogicalStep_Lab2_top.vhd
+l0
+L6
+VVBeS>PiBRA8AO8mUdnjI^3
+!s100 2?ZWgG17Ni^=iY5Z4NB?h0
+Z7 OV;C;10.4b;61
+31
+!s110 1495582905
+!i10b 1
+Z8 !s108 1495582904.000000
+Z9 !s90 -reportprogress|300|-93|-work|work|P:/ECE124/Lab 2/LogicalStep_Lab2_top.vhd|
+Z10 !s107 P:/ECE124/Lab 2/LogicalStep_Lab2_top.vhd|
+!i113 1
+Z11 o-93 -work work
+Z12 tExplicit 1
+Asimplecircuit
+R2
+R3
+R4
+DEx4 work 20 logicalstep_lab2_top 0 22 VBeS>PiBRA8AO8mUdnjI^3
+l39
+L18
+VlO@5_;N6aa@H9DTEH1b8k1
+!s100 2Om_XI>5nPc`[bAD1?FBl1
+R7
+31
+!s110 1495582906
+!i10b 1
+R8
+R9
+R10
+!i113 1
+R11
+R12
+Esevensegment
+Z13 w1492630134
+R2
+R3
+R4
+R0
+Z14 8P:/ECE124/Lab 2/SevenSegment.vhd
+Z15 FP:/ECE124/Lab 2/SevenSegment.vhd
+l0
+L10
+VIcE=JoX9k?e0S7Q]iSiUh2
+!s100 04IXS8z>2XE3`KedF`LM>0
+R7
+31
+Z16 !s110 1495582907
+!i10b 1
+Z17 !s108 1495582906.000000
+Z18 !s90 -reportprogress|300|-93|-work|work|P:/ECE124/Lab 2/SevenSegment.vhd|
+Z19 !s107 P:/ECE124/Lab 2/SevenSegment.vhd|
+!i113 1
+R11
+R12
+Abehavioral
+R2
+R3
+R4
+DEx4 work 12 sevensegment 0 22 IcE=JoX9k?e0S7Q]iSiUh2
+l24
+L18
+V7PV0oZHO^`Mzi1<P6ZK8W1
+!s100 QB@5X]ZofSPY;mZ6iEm:]3
+R7
+31
+R16
+!i10b 1
+R17
+R18
+R19
+!i113 1
+R11
+R12
